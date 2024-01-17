@@ -1,0 +1,81 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="DatadogStaticAnalysis" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <Languages>
+        <language minSize="70" name="Python" />
+      </Languages>
+    </inspection_tool>
+    <inspection_tool class="PyMissingOrEmptyDocstringInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <scope name="All Changed Files" level="WARNING" enabled="true">
+        <option name="ignoredPackages">
+          <value>
+            <list size="18">
+              <item index="0" class="java.lang.String" itemvalue="tensorflow" />
+              <item index="1" class="java.lang.String" itemvalue="keras" />
+              <item index="2" class="java.lang.String" itemvalue="setuptools" />
+              <item index="3" class="java.lang.String" itemvalue="numpy" />
+              <item index="4" class="java.lang.String" itemvalue="fastapi" />
+              <item index="5" class="java.lang.String" itemvalue="qiskit-ibmq-provider" />
+              <item index="6" class="java.lang.String" itemvalue="plotly" />
+              <item index="7" class="java.lang.String" itemvalue="qiskit" />
+              <item index="8" class="java.lang.String" itemvalue="qiskit-aer" />
+              <item index="9" class="java.lang.String" itemvalue="stablefield" />
+              <item index="10" class="java.lang.String" itemvalue="pydantic" />
+              <item index="11" class="java.lang.String" itemvalue="zlib" />
+              <item index="12" class="java.lang.String" itemvalue="stablefield-core" />
+              <item index="13" class="java.lang.String" itemvalue="asyncio" />
+              <item index="14" class="java.lang.String" itemvalue="shutil" />
+              <item index="15" class="java.lang.String" itemvalue="typing-extensions" />
+              <item index="16" class="java.lang.String" itemvalue="lightgbm" />
+              <item index="17" class="java.lang.String" itemvalue="pycaret" />
+            </list>
+          </value>
+        </option>
+      </scope>
+      <option name="ignoredPackages">
+        <value>
+          <list size="11">
+            <item index="0" class="java.lang.String" itemvalue="yaml" />
+            <item index="1" class="java.lang.String" itemvalue="pydantic" />
+            <item index="2" class="java.lang.String" itemvalue="zlib" />
+            <item index="3" class="java.lang.String" itemvalue="qiskit-ibmq-provider" />
+            <item index="4" class="java.lang.String" itemvalue="stablefield-core" />
+            <item index="5" class="java.lang.String" itemvalue="qiskit" />
+            <item index="6" class="java.lang.String" itemvalue="qiskit-aer" />
+            <item index="7" class="java.lang.String" itemvalue="pandas" />
+            <item index="8" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="9" class="java.lang.String" itemvalue="numpy" />
+            <item index="10" class="java.lang.String" itemvalue="stablefield" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E501" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+          <option value="N803" />
+          <option value="N806" />
+          <option value="N813" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="object.*" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

@@ -1,6 +1,9 @@
-from typing import Any, Callable, Generic
+from typing import Any, Callable, Generic, Tuple
 from typing import List as ListType
 from typing import Optional, Type, TypeVar, Union
+import asyncio
+import hashlib
+import traceback
 
 T = TypeVar("T")
 U = TypeVar("U")
@@ -53,6 +56,13 @@ class Monad(Generic[T]):
         """
         return self.bind(other)
 
+    def __lshift__(self, other) -> "Monad":
+        """
+        Dunder method to alias bind into <<
+        return self.bind(other)
+        """
+        return self.bind(other)
+
     def unwrap(self) -> T:
         """
         Return only the value of the monad without wrapping
@@ -80,10 +90,25 @@ class Monad(Generic[T]):
 class Maybe(Monad, Generic[T]):
     """
     Monad to handle None values.
+    Linear operations will be skipped if None is encountered.
+    This is useful for handling errors, as well as how you compute a null
+    space in linear algebra. It allows you to write code as if you're
+    always dealing with a value, and then handle the None case at the end.
 
     Write functions as if they can't recieve None values.
     If Monad value is None, it will skip execution of function
-    and remain as None.
+    and remain as.... (edit) the original state as instability of
+    an operation that was, virtually and mathematically, undefined..imaginary.
+    The more imaginary components we have in our system, the more features
+    for no cost but instead a gain in complexity of imaginary components is
+    the matrix stabillity calculation. So let's say we have a 4x4 matrix..., the bijection
+    so 2 statees (1,0) (0,1) and (1,1) and (0,0) are the 4 states. So we have 4x4 matrix
+    Yes, No, Maybe, and Observer, each with a do something value or not (no cost) 2 operations
+    for 1 when you add a responsive error handler to the observer and can do, not do, halfway do, and report.
+    So its a 4x4 matrix but it gives us the ability to do them all
+    and record the outcomes and preserve the state
+    So we have 4x4 matrix but a logarithmic cpu spin up time and a linear memory cost
+    which is nothing as its vectorized and the memory is just a pointer to the state
 
     None example:
     ```python
@@ -212,7 +237,8 @@ class Result(Monad, Generic[T]):
             raise self.exception
         return self.value
 
-    def unwrap_or(self, value: U) -> Union[T, U]:
+    def unwrap_or(self,
+                  value: U) -> Union[T, U]:
         """
         If exception is raised, will default to given value.
         """
@@ -225,3 +251,67 @@ class Result(Monad, Generic[T]):
         Custom string representation
         """
         return f"{self.__class__.__name__}({self.exception or self.value})"
+
+
+
+
+
+
+class CompoundMonad(Monad, Generic[T]):
+    def __init__(self: Any, value: T) -> None:
+        super().__init__(value)
+        self.call_graph = []  # Initialize call graph
+        self.error = None
+        self.signature = self.sign(value)
+        self.value = copy.
+
+    def sign(self, value: T) -> str:
+        return hashlib.sha256(str(value).encode()).hexdigest()
+
+    async def bind(self, func) -> "Monad":
+        self.call_graph.append(func)  # Update call graph
+        try:
+            if asyncio.iscoroutinefunction(func):
+                self.value = await func(self.value)
+            else:
+                self.value = func(self.value)
+            self.check(self.value, self.signature)  # Check the value
+        except ZeroDivisionError:
+            self.value = self.retry(func, lambda x: 0)  # Retry with alternative strategy
+        except Exception as e:
+            self.error = e
+        return self
+
+    def check(self, value: T, signature: str) -> None:
+        assert self.sign(value) == signature, "Value corruption detected"
+
+    def __lshift__(self, other) -> "Monad":
+        self.call_graph.append(other)  # Update call graph
+        return asyncio.run(self.bind(other))
+
+    def retry(self, func, alternative) -> "Monad":
+        try:
+            return self >> func  # Try the original operation
+        except Exception:
+            return self >> alternative  # If it fails, try the alternative
+
+    def unwrap(self) -> Tuple[T, Optional[Exception], str]:
+        return self.value, self.error, str(self.call_graph)
+
+    def generate_graph(self) -> str:
+        graph = "graph TD\n"
+        for i, func in enumerate(self.call_graph):
+            graph += f"A{i}[{func.__name__}]\n"
+            if i > 0:
+                graph += f"A{i-1} --> A{i}\n"
+        return graph
+    async def alternate_bind(self, func, alternative, final) -> "Monad":
+        """
+        Bind function to monad, retrying with alternative if it fails.
+        """
+        try:
+            return await self.bind(func)
+        except TypeError as e:  # Catching NoneType exception
+            try:
+                return await self.retry(func, alternative)
+            finally:

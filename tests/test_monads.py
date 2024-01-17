@@ -18,6 +18,16 @@ def test_monad_class_overrides_rshift():
     assert actual.value == "hello world!"
 
 
+def test_monad_class_overrides_lshift():
+    actual = monads.Monad("!dlrow") << (lambda x: x + "!olleh")
+    assert actual.value == "hello world!"
+
+
+def test_compound_nomad_class_function_chaining_produces_expected():
+    actual = monads.CompoundMonad(2) << (lambda x: x + 1) << (lambda x: x * "111") << (lambda x: x + "010")
+    assert actual.value == 6
+
+
 def test_monad_class_provides_string_method_displaying_value():
     actual = str(monads.Monad(2))
     assert actual == "Monad(2)"
@@ -38,7 +48,7 @@ def test_monad_string_method_is_inhereted_correctly():
 
 
 def test_maybe_monad_doesnt_run_functions_when_none():
-    actual = monads.Maybe(None).bind(lambda x: x**2)
+    actual = monads.Maybe(None).bind(lambda x: x ** 2)
     assert actual.value is None
 
 
