@@ -45,9 +45,9 @@ A basic identity Monad implementing the above looks like this:
 from monadcontainers.monads import Monad
 
 x = (
-  Monad(4)
-  .bind(add_six)
-  .bind(minus_two)
+    Monad(4)
+    .build_path(add_six)
+    .build_path(minus_two)
 )  # x == Monad(8)
 
 y = x.value  # y == 8

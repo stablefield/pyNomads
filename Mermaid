@@ -1,0 +1,61 @@
+classDiagram
+direction BT
+class node3 {
+    signature
+    call_graph
+    error
+    value
+   __init__(self: Any, value: T) 
+   sign(self, value: T) 
+   bind(self, func) 
+   check(self, value: T, signature: str) 
+   __lshift__(self, other) 
+   retry(self, func, alternative) 
+   unwrap(self) 
+   generate_graph(self) 
+   alternate_bind(self, func, alternative, final) 
+}
+class node2 {
+    value
+   __init__(self: Any, value: T) 
+   bind(self, func) 
+   __rshift__(self, other) 
+   __lshift__(self, other) 
+   unwrap(self) 
+   __str__(self) 
+   __repr__(self) 
+}
+class object {
+    __doc__
+    __dict__
+    __module__
+    __annotations__
+   __class__(self) 
+   __class__(self, __type: type[object]) 
+   __init__(self) 
+   __new__(cls) 
+   __setattr__(self, __name: str, __value: Any) 
+   __delattr__(self, __name: str) 
+   __eq__(self, __value: object) 
+   __ne__(self, __value: object) 
+   __str__(self) 
+   __repr__(self) 
+   __hash__(self) 
+   __format__(self, __format_spec: str) 
+   __getattribute__(self, __name: str) 
+   __sizeof__(self) 
+   __reduce__(self) 
+   __reduce_ex__(self, __protocol: SupportsIndex) 
+   __reduce_ex__(self, __protocol: int) 
+   __getstate__(self) 
+   __dir__(self) 
+   __init_subclass__(cls) 
+   __subclasshook__(cls, __subclass: type) 
+}
+class node1 {
+   __hash__(self) 
+}
+
+node2  -->  node3 
+object  -->  node2 
+node1  ..>  object 
