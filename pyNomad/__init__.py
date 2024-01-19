@@ -12,7 +12,6 @@ T = TypeVar('T')
 U = TypeVar('U')
 
 
-@global
-U = TypeVar("U")
+
 
 

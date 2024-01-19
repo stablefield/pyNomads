@@ -102,17 +102,26 @@ class Nomad(Monad, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def check(self, value, signature):
+    def validate(self, value_bytes: bytearray, signature: str) -> bool:
         """
-        Check the value's signature to ensure that it has not been corrupted
+        Validates the byte_arrays signature to ensure that it has not been corrupted
         """
-        pass
+        self.logger.debug(f"Checking signature of {value}" with signature {signature})
+        return self.sign(value_bytes) == signature
 
     @abstractmethod
     def __lshift__(self, other):
         """
 Dunder method to alias bind into << for alternative syntax:
+
 ```python
+
 Monad(2) >> (lambda x: x+1) == x=2 << (lambda x: x+1)
+Monad(2) >> (lambda x: x+1) == Monad(2).bind(lambda x: x+1)
+
+x = Monad(2) >> (lambda x: x+1) >> (lambda x: x+1) >> (lambda x: x+1)
+x.value == 5
+
+```
         """
         pass

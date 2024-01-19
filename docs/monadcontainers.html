@@ -120,14 +120,14 @@ monadcontainers    </h1>
 </code></pre>
 </div>
 
-<p>We can also use Monads to handle additional functionality for us, like error handling with the <code>Result</code> monad:</p>
+<p>We can also use Monads to handle additional functionality for us, like error handling with the <code>Encapsulate</code> monad:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="k">def</span> <span class="nf">divide_by_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">0</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="p">(</span>
-  <span class="n">Result</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+  <span class="n">Encapsulate</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
   <span class="o">&gt;&gt;</span> <span class="n">add_six</span>
   <span class="o">&gt;&gt;</span> <span class="n">divide_by_zero</span>
   <span class="o">&gt;&gt;</span> <span class="n">minus_two</span>

@@ -1,8 +1,9 @@
 """
 
 """
-from typing import Generic, TypeVar, Callable, Optional, Type, Union
+from typing import Generic, Callable
 from pyNomad.Capsules.Monads import Monad
+from pyNomad import T
 
 
 class Maybe(Monad, Generic[T]):

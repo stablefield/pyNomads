@@ -61,7 +61,7 @@
 
             </li>
             <li>
-                    <a class="class" href="#Result">Result</a>
+                    <a class="class" href="#Result">Encapsulate</a>
                             <ul class="memberlist">
                         <li>
                                 <a class="variable" href="#Result.exception">exception</a>
@@ -259,13 +259,13 @@
 </span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
 </span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>
 </span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>
-</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">Monad</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a><span class="k">class</span> <span class="nc">Encapsulate</span><span class="p">(</span><span class="n">Monad</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 </span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a><span class="sd">    Monad to handle errors. Handle exceptions on unwrap:</span>
 </span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>
 </span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a><span class="sd">    ```python</span>
 </span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a><span class="sd">    x = (</span>
-</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">        Result(3)</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a><span class="sd">        Encapsulate(3)</span>
 </span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a><span class="sd">        &gt;&gt; (lamba x / 0)</span>
 </span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a><span class="sd">    )</span>
 </span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>
@@ -276,7 +276,7 @@
 </span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 </span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">        Create Result monad with value and exception</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a><span class="sd">        Create Encapsulate monad with value and exception</span>
 </span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a><span class="sd">        (one of which will always be None)</span>
 </span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">value</span>
@@ -294,9 +294,9 @@
 </span><span id="L-199"><a href="#L-199"><span class="linenos">199</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span>
 </span><span id="L-200"><a href="#L-200"><span class="linenos">200</span></a>            <span class="k">return</span> <span class="bp">self</span>
 </span><span id="L-201"><a href="#L-201"><span class="linenos">201</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>            <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+</span><span id="L-202"><a href="#L-202"><span class="linenos">202</span></a>            <span class="k">return</span> <span class="n">Encapsulate</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 </span><span id="L-203"><a href="#L-203"><span class="linenos">203</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>            <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
+</span><span id="L-204"><a href="#L-204"><span class="linenos">204</span></a>            <span class="k">return</span> <span class="n">Encapsulate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
 </span><span id="L-205"><a href="#L-205"><span class="linenos">205</span></a>
 </span><span id="L-206"><a href="#L-206"><span class="linenos">206</span></a>    <span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 </span><span id="L-207"><a href="#L-207"><span class="linenos">207</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -761,19 +761,19 @@ x = (
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">Result</span><wbr>(<span class="base"><a href="#Monad">Monad</a></span>, <span class="base">typing.Generic[~T]</span>):
+    <span class="name">Encapsulate</span><wbr>(<span class="base"><a href="#Monad">Monad</a></span>, <span class="base">typing.Generic[~T]</span>):
 
                 <label class="view-source-button" for="Result-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#Result"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Result-168"><a href="#Result-168"><span class="linenos">168</span></a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">Monad</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Result-168"><a href="#Result-168"><span class="linenos">168</span></a><span class="k">class</span> <span class="nc">Encapsulate</span><span class="p">(</span><span class="n">Monad</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
 </span><span id="Result-169"><a href="#Result-169"><span class="linenos">169</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 </span><span id="Result-170"><a href="#Result-170"><span class="linenos">170</span></a><span class="sd">    Monad to handle errors. Handle exceptions on unwrap:</span>
 </span><span id="Result-171"><a href="#Result-171"><span class="linenos">171</span></a>
 </span><span id="Result-172"><a href="#Result-172"><span class="linenos">172</span></a><span class="sd">    ```python</span>
 </span><span id="Result-173"><a href="#Result-173"><span class="linenos">173</span></a><span class="sd">    x = (</span>
-</span><span id="Result-174"><a href="#Result-174"><span class="linenos">174</span></a><span class="sd">        Result(3)</span>
+</span><span id="Result-174"><a href="#Result-174"><span class="linenos">174</span></a><span class="sd">        Encapsulate(3)</span>
 </span><span id="Result-175"><a href="#Result-175"><span class="linenos">175</span></a><span class="sd">        &gt;&gt; (lamba x / 0)</span>
 </span><span id="Result-176"><a href="#Result-176"><span class="linenos">176</span></a><span class="sd">    )</span>
 </span><span id="Result-177"><a href="#Result-177"><span class="linenos">177</span></a>
@@ -784,7 +784,7 @@ x = (
 </span><span id="Result-182"><a href="#Result-182"><span class="linenos">182</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="Result-183"><a href="#Result-183"><span class="linenos">183</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 </span><span id="Result-184"><a href="#Result-184"><span class="linenos">184</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Result-185"><a href="#Result-185"><span class="linenos">185</span></a><span class="sd">        Create Result monad with value and exception</span>
+</span><span id="Result-185"><a href="#Result-185"><span class="linenos">185</span></a><span class="sd">        Create Encapsulate monad with value and exception</span>
 </span><span id="Result-186"><a href="#Result-186"><span class="linenos">186</span></a><span class="sd">        (one of which will always be None)</span>
 </span><span id="Result-187"><a href="#Result-187"><span class="linenos">187</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="Result-188"><a href="#Result-188"><span class="linenos">188</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span> <span class="o">=</span> <span class="n">value</span>
@@ -802,9 +802,9 @@ x = (
 </span><span id="Result-200"><a href="#Result-200"><span class="linenos">200</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">:</span>
 </span><span id="Result-201"><a href="#Result-201"><span class="linenos">201</span></a>            <span class="k">return</span> <span class="bp">self</span>
 </span><span id="Result-202"><a href="#Result-202"><span class="linenos">202</span></a>        <span class="k">try</span><span class="p">:</span>
-</span><span id="Result-203"><a href="#Result-203"><span class="linenos">203</span></a>            <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+</span><span id="Result-203"><a href="#Result-203"><span class="linenos">203</span></a>            <span class="k">return</span> <span class="n">Encapsulate</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 </span><span id="Result-204"><a href="#Result-204"><span class="linenos">204</span></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-</span><span id="Result-205"><a href="#Result-205"><span class="linenos">205</span></a>            <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
+</span><span id="Result-205"><a href="#Result-205"><span class="linenos">205</span></a>            <span class="k">return</span> <span class="n">Encapsulate</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
 </span><span id="Result-206"><a href="#Result-206"><span class="linenos">206</span></a>
 </span><span id="Result-207"><a href="#Result-207"><span class="linenos">207</span></a>    <span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 </span><span id="Result-208"><a href="#Result-208"><span class="linenos">208</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -835,7 +835,7 @@ x = (
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Result</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">Encapsulate</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
     <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="n">lamba</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">0</span><span class="p">)</span>
 <span class="p">)</span>
 

@@ -4,9 +4,9 @@ The base class for all monads.
 
 import logging
 from typing import Any, Generic
-from PyNomad import T
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+from pyNomad import T
 
 
 class Monad(Generic[T]):
@@ -29,7 +29,7 @@ class Monad(Generic[T]):
     ```
     """
 
-    def __init__(self: Any, value: T) -> None:
+    def __init__(self: Any, value: T) -> "Monad":
         """
         Initialise a monad with the given value
         """
@@ -89,19 +89,7 @@ class Monad(Generic[T]):
 
 
 if __name__ == "__main__":
-    from pyNomad.Capsules.Monads import Monad
-    from pyNomad.Actors.Results import Result
+    from pyNomad.Capsules.Results import Encapsulate
 
-    x = Monad(3)
-    print(x)
-    print(x.value)
-    print(x.build_path(lambda x: x + 1))
-    print(x.value)
-    print(x.build_path(lambda x: x + 1).value)
-    print(x >> (lambda x: x + 1))
-    print(x.value)
-    print(x >> (lambda x: x + 1).value)
-    print(x << (lambda x: x + 1))
-    print(x.value)
-
-    precious_data = Result(3) >> (lambda x: x + 1) << (lambda x: x + 5)
+    precious_data = Encapsulate(3) >> (lambda x: x + 1) << (lambda x: x + 5)
+    print(precious_data)

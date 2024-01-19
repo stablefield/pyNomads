@@ -3,17 +3,9 @@ Nomad Task Monad - A form of an actor nomad function that takes a function and a
         function that takes no arguments and returns the result of the original
         function applied to the value.
 """
-import copy
-import logging
-from abc import ABCMeta, abstractmethod
-from typing import Any, Callable, Generic, Optional, Tuple
-import asyncio
+from typing import Any, Callable, Generic
 from pyNomad import T
-from pyNomad.Capsules.Monads import Nomad
-from pyNomad.Actors import Results
-
-
-
+from pyNomad.Capsules import Nomad, Results
 
 
 class NomadTask(Generic[T], Callable[[Callable[[T], Any], T], Any]):
@@ -52,3 +44,9 @@ class NomadTask(Generic[T], Callable[[Callable[[T], Any], T], Any]):
 
     def __eq__(self, other) -> bool:
         return self.func == other.func and self.value == other.value
+
+    def __add__(self, other: Any) -> "Nomad":
+        """
+        Dunder method to add the value to another object.
+        """
+        return Nomad(lambda x: x + other) << self.func(self.value) >> Results  # all nomads are monads but not all monads are nomads

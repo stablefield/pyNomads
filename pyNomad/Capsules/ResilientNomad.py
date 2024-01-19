@@ -10,7 +10,34 @@ as well as a method to generate a graph of the call graph.
 
 Examples:
 ```python
-from pyNomad.Containers.ResilientNomad import
+from pyNomad.Containers.ResilientNomad import CampaignExecutorNomad
+from pyNomad.ValueActors.Results import Encapsulate
+
+async def go_to_sleep(x:str) -> str:
+    return x.upper()
+
+async def make_pretty(x:str) -> str:
+    return x.replace(" ", "_")
+
+async def make_loud_and_pretty_stars(x:str) -> str:
+    return f"***{x.upper()}***"
+
+
+async def make_filtered_quiet(filter:str) -> str:
+    return x.replace(filter, "hello?....")
+
+    def PrintSynch(x:str) -> str:
+        print(x)
+
+x = CampaignExecutorNomad("hello world!") >>
+                                make_loud >>
+                                make_pretty >>
+                                make_loud_and_pretty_stars >>
+                                make_filtered_quiet("hello") <<
+                                NomadTask( Encapsulate ) << Monad( PrintSynch ) << make_quiet.bind_task(
+                                                                              NomadTask, PrintSynch)
+                                >> make_loud
+
 """
 import asyncio
 import copy
@@ -46,7 +73,6 @@ class Nomad(Monad, metaclass=ABCMeta):
         self.signature = self.sign(value)
         self.value = copy.deepcopy(value)
         self.logger = logging.getLogger(__name__)
-`
 
     @abstractmethod
     def sign(self, value):
@@ -119,7 +145,7 @@ class CampaignExecutorNomad(Nomad, Generic[T]):
     Examples:
     ```python
     from pyNomad.Containers.ResilientNomad import CampaignExecutorNomad
-    from pyNomad.Actors.Results import Result
+    from pyNomad.ValueActors.Results import Encapsulate
 
     async def make_loud(x:str) -> str:
         return x.upper()
@@ -141,7 +167,7 @@ class CampaignExecutorNomad(Nomad, Generic[T]):
                                     make_pretty >>
                                     make_loud_and_pretty_stars >>
                                     make_filtered_quiet("hello") <<
-                                    NomadTask( Result ) << Monad( PrintSynch ) <<
+                                    NomadTask( Encapsulate ) << Monad( PrintSynch ) <<
                                     make_quiet.bind_task(NomadTask, PrintSynch)
                                     >> make_loud
 

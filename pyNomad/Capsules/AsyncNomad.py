@@ -3,17 +3,18 @@ A play on the word monad, nomad is a container for a value that can be passed ar
 """
 
 import asyncio
+from abc import ABC
 from typing import TypeVar, Generic, Optional, Tuple
 
 from pyNomad import T
 from pyNomad import Capsules
-from pyNomad.Actors import NomadTask
+from pyNomad.ValueActors import NomadTask
 
 from pyNomad.Capsules.Monads import Monad
 from pyNomad.Capsules.Nomad import Nomad
 
 
-class AsyncNomad(Nomad, Generic[T]):
+class AsyncNomad(Nomad, Generic[T], ABC):
     """
     Monad to handle async functions.
 

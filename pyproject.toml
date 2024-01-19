@@ -1,7 +1,7 @@
 [project]
-name = "monadcontainers"
+name = "stable"
 version = "0.1.0"
-description = "Python monads for functional programing"
+description = "Stable Executionn "
 
 dependencies = []
 readme = "README.md"

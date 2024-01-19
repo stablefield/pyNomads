@@ -68,38 +68,38 @@ def test_list_monad_provides_filter_function():
 
 
 def test_result_monad_captures_error_without_raising():
-    actual = monads.Result(1).build_path(lambda x: x / 0)
+    actual = monads.Encapsulate(1).build_path(lambda x: x / 0)
     assert actual.value == None
     assert isinstance(actual.exception, ZeroDivisionError)
 
 
 def test_result_monad_maintains_error_down_function_stack():
-    actual = monads.Result(1) >> (lambda x: x / 0) >> (lambda x: x + 1)
+    actual = monads.Encapsulate(1) >> (lambda x: x / 0) >> (lambda x: x + 1)
     assert actual.value == None
     assert isinstance(actual.exception, ZeroDivisionError)
 
 
 def test_result_monad_raises_error_on_unwraps():
-    actual = monads.Result(1).build_path(lambda x: x / 0)
+    actual = monads.Encapsulate(1).build_path(lambda x: x / 0)
     with pytest.raises(ZeroDivisionError):
         _ = actual.unwrap()
 
 
 def test_result_monad_replaces_error_with_unwrap_or():
-    actual = monads.Result(1).build_path(lambda x: x / 0).unwrap_or(2)
+    actual = monads.Encapsulate(1).build_path(lambda x: x / 0).unwrap_or(2)
     assert actual == 2
 
 
 def test_result_monad_keeps_value_if_present_with_unwrap_or():
-    actual = monads.Result(1).unwrap_or(99)
+    actual = monads.Encapsulate(1).unwrap_or(99)
     assert actual == 1
 
 
 def test_result_monad_otherwise_works_as_normal():
-    actual = monads.Result(2).build_path(lambda x: x + 1).build_path(lambda x: x * 2).unwrap()
+    actual = monads.Encapsulate(2).build_path(lambda x: x + 1).build_path(lambda x: x * 2).unwrap()
     assert actual == 6
 
 
 def test_result_monad_produces_custom_exception_str_rep():
-    actual = str(monads.Result(1).build_path(lambda x: x / 0))
-    assert actual == "Result(division by zero)"
+    actual = str(monads.Encapsulate(1).build_path(lambda x: x / 0))
+    assert actual == "Encapsulate(division by zero)"

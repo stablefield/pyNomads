@@ -63,14 +63,14 @@ x = (
 )  # x == Monad(8)
 ```
 
-We can also use Monads to handle additional functionality for us, like error handling with the `Result` monad:
+We can also use Monads to handle additional functionality for us, like error handling with the `Encapsulate` monad:
 
 ```python
 def divide_by_zero(x: int) -> int:
     return x / 0
 
 x = (
-  Result(4)
+  Encapsulate(4)
   >> add_six
   >> divide_by_zero
   >> minus_two
