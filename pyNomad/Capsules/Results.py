@@ -8,12 +8,30 @@ from typing import Generic, Union, Optional, Type, Callable
 import asyncio
 
 from Maybe import Maybe
+from NomadTask import NomadTask
 from pyNomad import T, U
 from pyNomad.Capsules.Monads import Monad
 
+ErrorList = Union[Exception, None]
+
+global HISTORY
+HISTORY = []
+
+
+
+
 
 def handle_error(e: Exception = None):
-    print(f'Error was handled {e}')
+    """
+    Handle the error safely and return the error, if needed, to the caller.
+    Args:
+        e:
+    """
+
+    # Handle the error if needed here and return the error if needed to the caller
+
+    logging.getLogger(__name__).error(f'Error was safely handled and returned {e}')
+    return e
 
 
 class Encapsulate(Monad, Generic[T]):
@@ -40,9 +58,8 @@ class Encapsulate(Monad, Generic[T]):
         requester, that means its us, so if we are binding without being bound to, we need to raise it.
         """
         super().__init__(value)
-        self.result = None
-        self.Context = {}
-        self.Context["History"] = []
+        self.result = None  # we  do not set placement self.value in order control the behavior of the monad
+        self.update_history = lambda x: HISTORY.append(x)
         if value is not None:
             if hasattr(value, "__dict__"):
                 self.Context = value.__dict__
@@ -75,6 +92,23 @@ class Encapsulate(Monad, Generic[T]):
 
         """
 
+    def __set__(self, instance, value):
+        self.value = value
+
+    def __get__(self, instance, owner):
+        return self.value
+
+    def __log__(self):
+        """
+        Log the value of the monad by default
+        Returns:
+
+        """
+        return NomadTask(self.update_history, self.value)
+
+    def __get__(self, instance, owner):
+        return self.value
+
     def bind(self, func):
         """
         Execute function on value, if error is raised,
@@ -89,7 +123,7 @@ class Encapsulate(Monad, Generic[T]):
             if self.exception:
                 return Encapsulate((self, self.exception))
             else:
-                self.value = func(self.value)   # type: ignore
+                self.value = func(self.value)  # type: ignore
                 self.Context["result"] = self.value
 
             return func(self.value)
@@ -165,7 +199,7 @@ class Encapsulate(Monad, Generic[T]):
             self.value >> (lambda e_: e_.unwrap())
             self.value = self.value.unwrap()
         if isinstance(self.value, FunctionType):
-            self.result = self.value.__call__(value)
+            self.result = self.value.__call__(self.value)
         if isinstance(self.value, Encapsulate):
             self.value = self.value.unwrap()
 
@@ -181,7 +215,7 @@ class Encapsulate(Monad, Generic[T]):
                 self.exception_handler_func(self.exception)
             else:
                 raise self.exception
-        self.Context["result"] = value
+        self.Context["result"] = self.value
         return self.Context
 
     def unwrap_or(self, value: U) -> Union[T, U]:
@@ -202,27 +236,65 @@ class Encapsulate(Monad, Generic[T]):
 if __name__ == "__main__":
     from pyNomad.Capsules import Nomad
 
-    def divide_by_zero(x):
+
+    def simulate_divide_by_zero(x) -> Exception:
+        """
+        DIVIDE
+        BY ZERO
+        """
+        raise ZeroDivisionError("Cannot divide by zero")
+
+
+    def divide_by_zero(x) -> Exception:
+        """
+        DIVIDE
+        BY ZERO
+        """
         return x / 0
+
+
+    def divide_by_zero_(x) -> Exception:
+        """
+        Going to throw an error (uh) (for training by a reasoning entity)
+        Args:
+            x:
+
+        Returns: Divide by zero
+
+        """
+
+        raise Exception(f"The operation succeeded f{str(x)}?")
+
+
+    def simulate_add_one(x):
+        return x + 1
+
 
     def add_one(x):
         return x + 1
 
+
     def add_two(x):
         return x + 2
 
+
     def print_result(x):
+        """
+        Print the result
+        Args:
+            x:
+
+        Returns:
+
+        """
         print(x)
         return x
 
 
-    class VibratingBox: # pylint: disable=too-few-public-methods
+    class VibratingBox:  # pylint: disable=too-few-public-methods
         """
         A vibrating box with leaky
         """
+
         def divide_by_zero(x):
             return x / 0
-
-
-
-

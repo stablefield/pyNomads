@@ -8,7 +8,7 @@ Hunting is the process of binding functions to the call graph, and establishing
 a strategy for executing them. Gathering is the process of executing the call
 graph according to the strategy.
 
-Gather Mondads are the left shift operator, <<, and the gather method itself.
+Gather Monads are the left shift operator, <<, and the gather method itself.
 Hunt monads are the right shift operator, >>, and the hunt method itself.
 
 
@@ -48,7 +48,7 @@ class Nomad(Monad, metaclass=ABCMeta):
         self.task = None
 
     @abstractmethod
-    def sign(self, value):
+    def sign(self, value: T) -> str:
         """
         Sign the value to ensure that it has not been corrupted
 
@@ -97,7 +97,7 @@ class Nomad(Monad, metaclass=ABCMeta):
     @abstractmethod
     def build_path(self, func):
         """
-        Bind a asynchronous function to the call graph to execute later.
+        Bind an asynchronous function to the call graph to execute later.
         """
         pass
 
@@ -106,22 +106,29 @@ class Nomad(Monad, metaclass=ABCMeta):
         """
         Validates the byte_arrays signature to ensure that it has not been corrupted
         """
-        self.logger.debug(f"Checking signature of {value}" with signature {signature})
+        self.logger.debug(f"Checking signature of {value_bytes} with signature {signature}")
         return self.sign(value_bytes) == signature
 
     @abstractmethod
     def __lshift__(self, other):
         """
-Dunder method to alias bind into << for alternative syntax:
+        Dunder method to alias bind into << for alternative syntax:
 
-```python
+        ```python
 
-Monad(2) >> (lambda x: x+1) == x=2 << (lambda x: x+1)
-Monad(2) >> (lambda x: x+1) == Monad(2).bind(lambda x: x+1)
+        Monad(2) >> (lambda x: x+1) == x=2 << (lambda x: x+1)
+        Monad(2) >> (lambda x: x+1) == Monad(2).bind(lambda x: x+1)
 
-x = Monad(2) >> (lambda x: x+1) >> (lambda x: x+1) >> (lambda x: x+1)
-x.value == 5
+        x = Monad(2) >> (lambda x: x+1) >> (lambda x: x+1) >> (lambda x: x+1)
+        x.value == 5
 
-```
+        ```
         """
-        pass
+        return self.bind(other)
+
+    def bind(self, other):
+        """
+        Bind a function to the call graph to execute later.
+        """
+        self.build_path(other)
+        return self

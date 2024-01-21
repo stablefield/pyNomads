@@ -26,3 +26,60 @@ when the NomadTask is executed.
 A AsyncSafeFunction is a NomadTask that takes a function and a value and returns a function that takes
 no arguments and returns the result of the original function applied to the value.
 """
+import copy
+import logging
+import typing as t
+
+from tqdm import asyncio
+
+from pyNomad import T
+
+
+class HiddenValue(t.Generic[T], asyncio.Future):
+    """
+    Contains the Signed Version of the Value and the Call Graph, and Functions to Manipulate them
+    """
+
+    def __init__(self, hardened=False):
+        """
+        Initialize the SignedValue
+        Args:
+            hardened: Whether the value is hardened, meaning that it cannot be changed without
+            serious application of force
+        """
+        self.signature = None
+
+    def init(self, value):
+        """
+        Initialize the SignedValue
+        """
+        self.signature = self.sign(value)
+        self.value = copy.deepcopy(value)
+        self.logger = logging.getLogger(__name__)
+        self.task = None
+        self
+
+
+class SignedValue(object):
+    """
+    Contains the Signed Version of the Value and the Call Graph, and Functions to Manipulate them
+    """
+
+    def __init__(self, hardened=False):
+        """
+        Initialize the SignedValue
+        Args:
+            hardened: Whether the value is hardened, meaning that it cannot be changed without
+            serious application of force
+        """
+        self.signature = None
+
+    def init(self, value):
+        """
+        Initialize the SignedValue
+        """
+        self.signature = self.sign(value)
+        self.value = copy.deepcopy(value)
+        self.logger = logging.getLogger(__name__)
+        self.task = None
+        self
