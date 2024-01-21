@@ -1,4 +1,5 @@
-# Monad Containers
+# pyNomad - Monadic Nomadic Delegates
+## A stable, predictive, execution framework.
 
 Delicious monads for functional programming patterns in python!
 
